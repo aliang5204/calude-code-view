@@ -10,17 +10,22 @@ def _find_claude() -> str:
     if env_bin := os.environ.get("CLAUDE_BIN"):
         return env_bin
 
+    # 优先用 PATH 中的 claude
+    resolved = shutil.which("claude")
+    if resolved:
+        return resolved
+
+    # 常见安装路径兜底
     candidates = [
-        "E:/code/develop/nvm-setup/nodejs/node_modules/@anthropic-ai/claude-code/bin/claude.exe",
         os.path.expanduser("~/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/bin/claude.exe"),
+        os.path.expanduser("~/AppData/Local/npm/node_modules/@anthropic-ai/claude-code/bin/claude.exe"),
+        "/usr/local/bin/claude",
     ]
     for p in candidates:
-        p = os.path.expanduser(p)
-        if os.path.exists(p):
+        if os.path.exists(os.path.expanduser(p)):
             return p
 
-    resolved = shutil.which("claude")
-    return resolved if resolved else "claude"
+    return "claude"
 
 
 async def stream_claude_response(

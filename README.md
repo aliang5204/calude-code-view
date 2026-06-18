@@ -19,12 +19,16 @@
 
 ## 快速开始
 
-### 环境要求
+### 前置条件
 
-- Python 3.10+
-- Node.js 18+
-- Claude Code CLI 已安装
-- ccswitch 已配置
+| 条件 | 检查命令 |
+|------|----------|
+| Python 3.10+ | `python --version` |
+| Node.js 18+ | `node --version` |
+| Claude Code CLI | `claude --version` |
+| ccswitch 已配置 | `claude -p "hi"` 能正常回复 |
+
+> `claude` 必须在 PATH 中可见。如果 `claude` 命令不可用，设置环境变量 `CLAUDE_BIN` 指向 claude 可执行文件路径。
 
 ### 安装
 
@@ -57,9 +61,9 @@ npm run dev
 
 浏览器打开 **http://localhost:1420**
 
-### API 配置
+### 工作原理
 
-本项目通过 Claude Code CLI + ccswitch 工作，**无需在 Web 端配置 API**。ccswitch 切换模型后重启 Backend 即可自动跟随。
+本项目通过 Claude Code CLI + ccswitch 工作，**无需在 Web 端配置 API Key**。后端启动时读取当前环境的 ccswitch 配置，ccswitch 切换模型后重启 Backend 即可自动跟随。
 
 ---
 
@@ -127,16 +131,20 @@ AI-agent/
 
 ## 分享给他人
 
-对方 clone 后：
+对方 clone 后，确保已安装 Claude Code CLI 并配置好 ccswitch，然后：
 
 ```bash
 cd AI-agent
 cd backend && pip install -r requirements.txt
 cd ../frontend && npm install
-# 双击 start.bat
+# 双击 start.bat 或分别启动
 ```
 
-对方需要有自己的 Claude Code + ccswitch 配置，Web 端自动读取环境变量。
+| 对方需要 | 对方不需要 |
+|----------|-----------|
+| Python 3.10+ / Node.js 18+ | 安装数据库 |
+| Claude Code CLI（PATH 可见） | 配置 API Key |
+| ccswitch 已正常工作 | 修改任何代码 |
 
 ---
 
