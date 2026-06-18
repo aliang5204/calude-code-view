@@ -55,6 +55,7 @@ class ConversationOut(BaseModel):
     id: int
     title: str
     group_tag: str
+    claude_session_id: str = ""
     model_config_id: Optional[int] = None
     project_path: str
     file_paths: str
@@ -89,14 +90,8 @@ class MessageOut(BaseModel):
 
 # ========== Chat ==========
 
-class FileContext(BaseModel):
-    path: str
-    content: str
-
-
 class ChatSendRequest(BaseModel):
     content: str
-    file_contexts: Optional[List[FileContext]] = None
 
 
 # ========== Context ==========

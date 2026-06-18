@@ -1,8 +1,15 @@
+import sys
+import asyncio
+
+# Windows 必须使用 ProactorEventLoop 才支持 asyncio subprocess
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db
-from app.routers import settings, conversations, chat, context_routes
+from app.routers import conversations, chat, context_routes
 
 
 @asynccontextmanager
@@ -24,7 +31,6 @@ app.add_middleware(
 )
 
 # 注册路由
-app.include_router(settings.router)
 app.include_router(conversations.router)
 app.include_router(chat.router)
 app.include_router(context_routes.router)

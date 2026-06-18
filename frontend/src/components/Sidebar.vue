@@ -64,10 +64,7 @@
     </div>
 
     <div class="sidebar-footer">
-      <a-button type="text" block @click="$emit('open-settings')" class="settings-btn">
-        <template #icon><SettingOutlined /></template>
-        API 设置
-      </a-button>
+      <div class="footer-info">Claude Code + ccswitch</div>
     </div>
 
     <!-- 标签编辑弹窗 -->
@@ -85,9 +82,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-
-defineEmits<{ 'open-settings': [] }>()
-import { PlusOutlined, MoreOutlined, EditOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined, MoreOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { useChatStore } from '@/stores/chat'
 import type { ConversationListItem } from '@/api'
 
@@ -154,13 +149,10 @@ onMounted(() => store.loadConversations())
 
 <style scoped>
 .sidebar {
-  width: 280px;
   height: 100%;
   background: #12121f;
-  border-right: 1px solid #1e1e36;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
 }
 
 .sidebar-brand {
@@ -298,12 +290,9 @@ onMounted(() => store.loadConversations())
   border-top: 1px solid #1e1e36;
 }
 
-.settings-btn {
-  color: #6a6a88 !important;
-  font-size: 12px;
-}
-
-.settings-btn:hover {
-  color: #a0a0c0 !important;
+.footer-info {
+  font-size: 10px;
+  color: #4a4a68;
+  text-align: center;
 }
 </style>

@@ -22,9 +22,10 @@ class Conversation(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(200), default="")
     group_tag = Column(String(100), default="")
+    claude_session_id = Column(String(100), default="")  # Claude Code session ID
     model_config_id = Column(Integer, ForeignKey("api_configs.id"), nullable=True)
     project_path = Column(String(500), default="")
-    file_paths = Column(Text, default="[]")  # JSON array
+    file_paths = Column(Text, default="[]")
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
@@ -36,7 +37,7 @@ class Message(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     conversation_id = Column(Integer, ForeignKey("conversations.id"), nullable=False)
-    role = Column(String(20), nullable=False)  # 'user' | 'assistant' | 'system'
+    role = Column(String(20), nullable=False)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime, default=func.now())
 

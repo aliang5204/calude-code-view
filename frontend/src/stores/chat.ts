@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { convApi, msgApi, sendMessageStream, type Conversation, type Message, type ConversationListItem, type FileContext } from '@/api'
+import { convApi, msgApi, sendMessageStream, type Conversation, type Message, type ConversationListItem } from '@/api'
 
 export const useChatStore = defineStore('chat', () => {
   const conversations = ref<ConversationListItem[]>([])
@@ -43,13 +43,12 @@ export const useChatStore = defineStore('chat', () => {
     await loadConversations()
   }
 
-  async function sendUserMessage(content: string, fileContexts?: FileContext[]) {
+  async function sendUserMessage(content: string) {
     if (!currentConvId.value) return
     error.value = null
     isStreaming.value = true
     streamingContent.value = ''
 
-    // 添加用户消息到本地
     messages.value.push({
       id: Date.now(),
       conversation_id: currentConvId.value,
@@ -59,15 +58,14 @@ export const useChatStore = defineStore('chat', () => {
     })
 
     try {
-      const { stream } = sendMessageStream(currentConvId.value, content, fileContexts)
+      const { stream } = sendMessageStream(currentConvId.value, content)
       let fullContent = ''
 
       for await (const event of stream) {
         if (event.content) {
           fullContent += event.content
           streamingContent.value = fullContent
-        } else if (event.event === 'done' || event.message_id) {
-          // 流完成
+        } else if (event.message_id || event.session_id) {
           break
         } else if (event.error) {
           throw new Error(event.error)

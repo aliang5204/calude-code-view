@@ -12,28 +12,6 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
   return res.json()
 }
 
-// ========== Configs ==========
-export interface ApiConfig {
-  id: number
-  name: string
-  base_url: string
-  api_key: string
-  default_model: string
-  is_active: boolean
-  created_at?: string
-  updated_at?: string
-}
-
-export const configApi = {
-  list: () => request<ApiConfig[]>('/configs'),
-  create: (data: Partial<ApiConfig>) =>
-    request<ApiConfig>('/configs', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id: number, data: Partial<ApiConfig>) =>
-    request<ApiConfig>(`/configs/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  delete: (id: number) =>
-    request<{ ok: boolean }>(`/configs/${id}`, { method: 'DELETE' }),
-}
-
 // ========== Conversations ==========
 export interface ConversationListItem {
   id: number
@@ -81,29 +59,21 @@ export const msgApi = {
 }
 
 // ========== Chat (SSE via POST + ReadableStream) ==========
-export interface FileContext {
-  path: string
-  content: string
-}
-
 export interface SSEEvent {
   event?: string
   content?: string
   message_id?: number
+  session_id?: string
   error?: string
 }
 
 export function sendMessageStream(
   convId: number,
   content: string,
-  fileContexts?: FileContext[],
 ): { abort: () => void; stream: AsyncIterable<SSEEvent> } {
   const abortController = new AbortController()
 
   const body: Record<string, unknown> = { content }
-  if (fileContexts && fileContexts.length > 0) {
-    body.file_contexts = fileContexts
-  }
 
   const stream = {
     [Symbol.asyncIterator]() {

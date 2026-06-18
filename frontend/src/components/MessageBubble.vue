@@ -60,15 +60,15 @@ function escapeHtml(text: string): string {
 
 <style scoped>
 .message-row {
-  padding: 6px 0;
+  padding: 5px 0;
 }
 
 .msg-wrapper {
   display: flex;
-  gap: 14px;
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 24px;
+  gap: 10px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 10px;
 }
 
 .message-row.user .msg-wrapper {
@@ -76,14 +76,14 @@ function escapeHtml(text: string): string {
 }
 
 .msg-avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
   background: #1e1e36;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 14px;
   flex-shrink: 0;
   border: 1px solid #2a2a45;
 }
@@ -94,7 +94,7 @@ function escapeHtml(text: string): string {
 }
 
 .msg-body {
-  max-width: 78%;
+  max-width: 82%;
   min-width: 0;
 }
 
